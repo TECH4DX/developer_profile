@@ -40,8 +40,6 @@ if __name__ == '__main__' :
     for i in range(0, int(total/1000) + 1):
         result += es.scroll(scroll_id=scroll_id, scroll='1m')['hits']['hits']
 
-    print(len(result))
-
     actions = []
     for hit in result:
         source = hit['_source']
