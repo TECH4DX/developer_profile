@@ -1,0 +1,18 @@
+[
+  {
+    "_id": "a065bf50-4129-11ec-a598-63f18354967d",
+    "_type": "dashboard",
+    "_source": {
+      "title": "developer_profile",
+      "hits": 0,
+      "description": "",
+      "panelsJSON": "[{\"embeddableConfig\":{},\"gridData\":{\"x\":18,\"y\":0,\"w\":11,\"h\":14,\"i\":\"2\"},\"id\":\"gitee_issues_status\",\"panelIndex\":\"2\",\"type\":\"visualization\",\"version\":\"6.8.6\"},{\"embeddableConfig\":{\"vis\":{\"params\":{\"config\":{\"searchKeyword\":\"\"},\"sort\":{\"columnIndex\":3,\"direction\":\"desc\"}}}},\"gridData\":{\"x\":29,\"y\":0,\"w\":19,\"h\":14,\"i\":\"4\"},\"id\":\"e5ac3bd0-4128-11ec-a598-63f18354967d\",\"panelIndex\":\"4\",\"type\":\"visualization\",\"version\":\"6.8.6\"},{\"embeddableConfig\":{},\"gridData\":{\"x\":0,\"y\":5,\"w\":18,\"h\":9,\"i\":\"5\"},\"id\":\"gitee_issues_evolutionary\",\"panelIndex\":\"5\",\"type\":\"visualization\",\"version\":\"6.8.6\"},{\"embeddableConfig\":{},\"gridData\":{\"x\":0,\"y\":14,\"w\":24,\"h\":15,\"i\":\"6\"},\"id\":\"163b6fd0-4117-11ec-a598-63f18354967d\",\"panelIndex\":\"6\",\"type\":\"visualization\",\"version\":\"6.8.6\"},{\"embeddableConfig\":{},\"gridData\":{\"x\":24,\"y\":14,\"w\":24,\"h\":15,\"i\":\"7\"},\"id\":\"41f10fd0-4127-11ec-a598-63f18354967d\",\"panelIndex\":\"7\",\"type\":\"visualization\",\"version\":\"6.8.6\"},{\"embeddableConfig\":{},\"gridData\":{\"x\":0,\"y\":29,\"w\":24,\"h\":15,\"i\":\"8\"},\"id\":\"1c5881b0-4134-11ec-a598-63f18354967d\",\"panelIndex\":\"8\",\"type\":\"visualization\",\"version\":\"6.8.6\"},{\"gridData\":{\"x\":0,\"y\":0,\"w\":18,\"h\":5,\"i\":\"9\"},\"version\":\"6.8.6\",\"panelIndex\":\"9\",\"type\":\"visualization\",\"id\":\"51929390-4137-11ec-a598-63f18354967d\",\"embeddableConfig\":{}},{\"gridData\":{\"w\":24,\"h\":15,\"x\":24,\"y\":29,\"i\":\"10\"},\"version\":\"6.8.6\",\"panelIndex\":\"10\",\"type\":\"visualization\",\"id\":\"f59c0330-41d3-11ec-a598-63f18354967d\",\"embeddableConfig\":{}}]",
+      "optionsJSON": "{\"darkTheme\":false,\"hidePanelTitles\":false,\"useMargins\":true}",
+      "version": 1,
+      "timeRestore": false,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"query\":{\"language\":\"lucene\",\"query\":\"\"},\"filter\":[]}"
+      }
+    }
+  }
+]
