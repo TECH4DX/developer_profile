@@ -29,10 +29,21 @@ if __name__ == '__main__' :
     # insert document
     # es.index(index="test-data", doc_type='_doc', document=body)
 
-    issueList = es.search(index=search_index)
+    issueList = es.search(index=search_index, scroll='1m', size=1000)
+
+    total = issueList["hits"]['total']
+    print("find {0} issues".format(total))
+
+    scroll_id = issueList['_scroll_id']
+
+    result = issueList['hits']['hits']
+    for i in range(0, int(total/1000) + 1):
+        result += es.scroll(scroll_id=scroll_id, scroll='1m')['hits']['hits']
+
+    print(len(result))
 
     actions = []
-    for hit in issueList["hits"]["hits"]:
+    for hit in result:
         source = hit['_source']
         data = source['data']
 
@@ -41,6 +52,8 @@ if __name__ == '__main__' :
             if event == 'creater':
                 tasks = ['creater']
             elif event == 'assignee':
+                if data['assignee'] == None:
+                    continue
                 tasks = ['assignee']
             elif event == 'collaborators':
                 tasks = ['collaborator'] * len(data['collaborators'])
@@ -97,3 +110,5 @@ if __name__ == '__main__' :
 
     if actions:
         bulk(es, actions)
+
+    print("job done!")
