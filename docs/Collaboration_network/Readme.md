@@ -31,6 +31,8 @@
 ### 展示
 ![image](https://user-images.githubusercontent.com/12421382/141293007-a34fb24a-a52a-4fb5-a979-9140a8d745f3.png)
 
+比如tc sig中人员的分布情况
+![image](https://user-images.githubusercontent.com/12421382/141293171-79475f07-0d46-4348-9e79-395932ebdf08.png)
 
 
 
