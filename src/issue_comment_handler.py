@@ -101,7 +101,7 @@ if __name__ == '__main__' :
                     '_index': index_name,
                     '_type': 'items',
                     '_id': id,
-                    'data': body
+                    '_source': body
                 }
 
                 actions.append(index_action)
