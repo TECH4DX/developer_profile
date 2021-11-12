@@ -6,7 +6,7 @@ versioinID = 0.10
 
 search_index = 'gitee_issues-raw'
 index_name = 'issues_comment-enriched'
-es_host = '34.96.160.229'
+es_host = '127.0.0.1'
 es_port = 9200
 
 if __name__ == '__main__' :
