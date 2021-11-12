@@ -81,7 +81,7 @@ if __name__ == '__main__' :
                     print("not supported task!!")
                     exit(1)    
 
-                doc = {
+                bady = {
                     'issue_id': data['id'],
                     'issue_number': data['number'],
                     'issue_state': data['state'],
@@ -99,9 +99,9 @@ if __name__ == '__main__' :
                 index_action = {
                     '_op_type': 'index',
                     '_index': index_name,
-                    '_type': 'doc',
+                    '_type': 'items',
                     '_id': id,
-                    'doc': doc
+                    'data': bady
                 }
 
                 actions.append(index_action)
