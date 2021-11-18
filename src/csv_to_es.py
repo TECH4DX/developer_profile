@@ -1,4 +1,5 @@
 import csv
+import time
 from elasticsearch import Elasticsearch
 from elasticsearch.helpers import bulk
 
@@ -18,18 +19,21 @@ if __name__ == "__main__":
         print("es not connected")
         exit()
     
+    now_time = time.strftime('%Y-%m-%dT%H:%M:%S%z',time.localtime())
+
     actions = []
     for row in rows[1:]:
         body = {
                 'user_name': row[0],
                 'user_login': row[1],
                 'avatar_url': row[2],
-                'followers_count': row[3],
-                'following_count': row[4],
-                'stared_count': row[5],
-                'watched_count': row[6],
+                'followers_count': int(row[3]),
+                'following_count': int(row[4]),
+                'stared_count': int(row[5]),
+                'watched_count': int(row[6]),
                 'created_at': row[7],
                 'updated_at': row[8],
+                'enriched_at': now_time,
                 'user_email': row[9],
                 'user_bio': row[10]
             }
