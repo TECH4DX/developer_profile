@@ -6,13 +6,16 @@ versioinID = 0.10
 
 search_index = 'gitee_issues-raw'
 index_name = 'issues_comment-enriched'
+
+user_name = ''
+passwd = ''
 es_host = '127.0.0.1'
 es_port = 9200
 
 if __name__ == '__main__' :
     print("Version: ", versioinID)
     
-    es = Elasticsearch([{"host": es_host, "port": es_port}])
+    es = Elasticsearch([{"host": es_host, "port": es_port}], http_auth=(user_name, passwd))
     if es.ping():
         print("es info:")
         print(es.info())
