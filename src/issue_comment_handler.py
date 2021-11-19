@@ -92,7 +92,7 @@ if __name__ == '__main__' :
                     'issue_labels': data['labels'],
                     'repository': data['html_url'],
                     'creater_login': data['user']['login'],
-                    'user_login': user_login,
+                    'user_login_': user_login,
                     'action': action,
                     'update_at': update_at
                 }
