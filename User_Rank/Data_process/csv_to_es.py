@@ -4,12 +4,12 @@ import json
 from elasticsearch import Elasticsearch
 from elasticsearch.helpers import bulk
 
-es_host = '34.96.160.229'
-es_port = 9200
+es = Elasticsearch(['34.96.160.229'], http_auth=('elastic', 'opensource'), port=9200, timeout=50000)
 
 
 def create_index(index_name='gitee_event', index_type='en'):
-    es = Elasticsearch([es_host])
+    es = Elasticsearch(['34.96.160.229'], http_auth=('elastic', 'opensource'), port=9200, timeout=50000)
+
     print(es.indices)
     '''
     创建索引,创建索引名称为ott，类型为ott_type的索引
@@ -50,13 +50,12 @@ def create_index(index_name='gitee_event', index_type='en'):
 
 
 def gitee_event():
-    index_name = 'gitee_event'
+    index_name = 'gitee_issues_event'
     # csv_reader = json.load('event_data/tensorflow_issue_event_0916_login.json')
-    csv_reader = csv.reader(open('../event_data/tensorflow_issue_event_0916_login.csv', 'r', encoding='UTF-8'))
+    csv_reader = csv.reader(open('../Data_crawel/event_v2/mindspore_issue_issue_data_1122.csv', 'r', encoding='UTF-8'))
     # csv_reader = csv.reader(open('event_data/user_info.csv', 'r', encoding='UTF-8'))
     rows = [row for row in csv_reader]
     print(rows[1:])
-    es = Elasticsearch([{"host": es_host, "port": es_port}])
     if es.ping():
         print("es info:")
         print(es.info())
@@ -67,21 +66,11 @@ def gitee_event():
     actions = []
     for row in rows[1:]:
         body = {
-            'issue_id': row[0],
-            'event_url': row[1],
-            'id': row[2],
-            'url': row[3],
-            'actor': row[4],
-            'commit_id': row[5],
-            'commit_url': row[6],
-            'event': row[7],
-            'created_at': row[8],
-            'rename': row[9],
-            'label': row[10],
-            'assignee': row[11],
-            'assigner': row[12],
-            'review_requester': row[13],
-            'requested_reviewer': row[14]
+            'event_id': row[0],
+            'event_type': row[1],
+            'user_login': row[2],
+            'event_content': row[3],
+            'created_at': row[4],
         }
 
         id = row[0]

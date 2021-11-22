@@ -24,7 +24,7 @@ def query_json_all(field):  # 查询
 
 
 def issue_id():
-    query = es.search(index='gitee_issues',
+    query = es.search(index='gitee_issues-enriched',
                       body=query_json_all('id_in_repo'),
                       scroll='5m',
                       size=2000)["hits"]["hits"]
@@ -37,6 +37,16 @@ def issue_id():
 
 
 def pr_id():
+    # issueList = es.search(index=search_index, scroll='1m', size=1000)
+    #
+    # total = issueList["hits"]['total']
+    # print("find {0} issues".format(total))
+    #
+    # scroll_id = issueList['_scroll_id']
+    # result = issueList['hits']['hits']
+    # for i in range(0, int(total / 1000) + 1):
+    #     result += es.scroll(scroll_id=scroll_id, scroll='1m')['hits']['hits']
+
     query = es.search(index='gitee_prs',
                       body=query_json_all('id_in_repo'),
                       scroll='5m',
@@ -59,14 +69,15 @@ def crawel(es_id, crawel_type):
     for gitee_id in es_id:
         print('正在爬取第', gitee_id)
         if crawel_type == 'issue':
-            url = 'https://gitee.com/api/v5/repos/mindspore/issues/' + gitee_id + '/operate_logs?access_token=754436b59b9db45fd67615e444dc9bfb&repo=mindspore&sort=desc'
+            url = 'https://gitee.com/api/v5/repos/mindspore/issues/' + gitee_id + '/operate_logs?access_token=9542fcc154999665b990543a6fb25b3c&repo=mindspore&sort=desc'
         elif crawel_type == 'pr':
-            url = 'https://gitee.com/api/v5/repos/mindspore/mindspore/pulls/' + gitee_id + '/operate_logs?access_token=754436b59b9db45fd67615e444dc9bfb&sort=desc'
+            url = 'https://gitee.com/api/v5/repos/mindspore/mindspore/pulls/' + gitee_id + '/operate_logs?access_token=9542fcc154999665b990543a6fb25b3c&sort=desc'
 
         response = requests.get(url=url, headers=headers)
         data = response.json()
         if (response.status_code != 200):  # 檢測是否請求成功，若成功，狀態碼應該是200
             print('error: fail to request')
+            continue
         for i in range(0, len(data)):
             event_data = data[i]
             event_id.append(event_data['id'])
@@ -90,7 +101,7 @@ def crawel(es_id, crawel_type):
                     # 'comment': comment,
                     # 'repository': repository,
                 })
-            file_name = 'mindspore_issue_' + crawel_type + '_data_1119.csv'
+            file_name = 'mindspore_issue_' + crawel_type + '_data_1122.csv'
             mindspore_event_data.to_csv(file_name, index=None)
             print('已存储！')
         index += 1
@@ -105,13 +116,15 @@ def crawel(es_id, crawel_type):
             # 'comment': comment,
             # 'repository': repository,
         })
-    file_name = 'mindspore_issue_' + crawel_type + '_data_1119.csv'
+    file_name = 'mindspore_issue_' + crawel_type + '_data_1122.csv'
     mindspore_event_data.to_csv(file_name, index=None)
     print('已存储！')
 
 
 if __name__ == '__main__':
-    # issue_id = issue_id()
-    # crawel(es_id=issue_id, crawel_type='issue')
-    prs_id = pr_id()
-    crawel(es_id=prs_id, crawel_type='pr')
+    # Issue部分
+    issue_id = issue_id()
+    crawel(es_id=issue_id, crawel_type='issue')
+    # PR部分
+    # prs_id = pr_id()
+    # crawel(es_id=prs_id, crawel_type='pr')
