@@ -50,12 +50,14 @@ def create_index(index_name='gitee_event', index_type='en'):
 
 
 def gitee_event():
-    index_name = 'gitee_issues_event'
+    index_name = 'gitee_issues_user_rank'
     # csv_reader = json.load('event_data/tensorflow_issue_event_0916_login.json')
-    csv_reader = csv.reader(open('../Data_crawel/event_v2/mindspore_issue_issue_data_1122.csv', 'r', encoding='UTF-8'))
+    # csv_reader = csv.reader(open('../Data_crawel/event_v2/mindspore_issue_issue_data_1122.csv', 'r', encoding='UTF-8'))
+    csv_reader = csv.reader(open('../user_event_rank2.csv', 'r', encoding='UTF-8'))
+
     # csv_reader = csv.reader(open('event_data/user_info.csv', 'r', encoding='UTF-8'))
     rows = [row for row in csv_reader]
-    print(rows[1:])
+    # print(rows[1:])
     if es.ping():
         print("es info:")
         print(es.info())
@@ -66,11 +68,13 @@ def gitee_event():
     actions = []
     for row in rows[1:]:
         body = {
-            'event_id': row[0],
-            'event_type': row[1],
-            'user_login': row[2],
-            'event_content': row[3],
-            'created_at': row[4],
+            'user_login': row[1],
+            'create_issue_rank': row[2],
+            'comment_issue_rank': row[3],
+            'assign_collaborator_rank': row[4],
+            'setting_assignee_rank': row[5],
+            'closed_issue_rank': row[6],
+            'Overall_issue_rank': row[7]
         }
 
         id = row[0]

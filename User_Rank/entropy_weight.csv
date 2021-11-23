@@ -1,5 +1,6 @@
 event_name,weight_val
-create,0.25117467212199257
-assign_collaborator,0.2169048395227213
-setting_assignee,0.26446039385767073
-change_issue_state,0.2674600944976154
+create,0.2178757022030848
+assign_collaborator,0.1928102169387235
+setting_assignee,0.22726387003442075
+change_issue_state,0.2293625285590831
+comment,0.13268768226468777
