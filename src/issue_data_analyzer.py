@@ -7,11 +7,11 @@ versioinID = 0.10
 search_index = 'gitee_issues-raw'
 index_name = 'issue_data-analyzer'
 
-user_name = ''
-passwd = ''
+user_name = '**'
+passwd = '**'
 es_host = '127.0.0.1'
 es_port = 9200
-gitee_token = 'xxxx'
+gitee_token = 'xx'
 
 '''
 Notice: 
@@ -20,7 +20,7 @@ https://gitee.com/mindspore/community/blob/master/sigs/dx/issue_analysis/scripts
 which was done by BoxuanZhao before.
 '''
 # 遍历issue列表时调用，以判断该条issue是否满足三个条件
-def is_promoted(owner_id, issue_operate_logs, issue_comments):
+def is_promoted(owner_id, issue_operate_logs, issue_comments,issue_id):
     # 这里某些项以后可以设置成integer，用以表示单条issue里正面行为的次数（比如打了多个标签）
     total_flag = False
     label_flag = False
@@ -29,8 +29,17 @@ def is_promoted(owner_id, issue_operate_logs, issue_comments):
 
     # 先看日志里是否有推进issue解决的正面行为
     for action in issue_operate_logs:
-        action_owner_id = action['user']['id']
-        action_icon = action['icon']
+        try:
+            action_owner_id = action['user']['id']
+            action_icon = action['icon']
+        except Exception as e:
+            print("Catch an exception when handling issue operation logs in function is_promoted:")
+            print("issue_id: ", issue_id)
+            print("logs: ", issue_operate_logs)
+            print("action: ", action)
+            print(e)
+            return False, False, False, False
+
         # 有没有打标签
         if action_owner_id == owner_id and action_icon == 'tag icon':
             label_flag = True
@@ -73,7 +82,7 @@ if __name__ == '__main__' :
         print("es not connected")
         exit()
 
-    issueList = es.search(index=search_index, scroll='1m', size=1000)
+    issueList = es.search(index=search_index, scroll='10s', size=1000)
 
     total = issueList["hits"]['total']
     print("find {0} issues".format(total))
@@ -82,7 +91,7 @@ if __name__ == '__main__' :
 
     issues = issueList['hits']['hits']
     for i in range(0, int(total/1000) + 1):
-        issues += es.scroll(scroll_id=scroll_id, scroll='1m')['hits']['hits']
+        issues += es.scroll(scroll_id=scroll_id, scroll='10s')['hits']['hits']
 
     actions = []
     for issue in issues:
@@ -101,7 +110,7 @@ if __name__ == '__main__' :
             f"https://gitee.com/api/v5/repos/{repo}/issues/{number}/operate_logs",
             params={'access_token': gitee_token, 'repo': repo, 'sort': 'desc'}).json()
 
-        total_flag, label_flag, assign_flag, other_flag = is_promoted(owner_id, issue_operate_logs, issue_data['comments_data'])
+        total_flag, label_flag, assign_flag, other_flag = is_promoted(owner_id, issue_operate_logs, issue_data['comments_data'],number)
 
         body = {
                 'id': issue_id,
