@@ -95,9 +95,11 @@ if __name__ == '__main__' :
         owner_login = owner['login']
         owner_name = owner['name']
 
+        repo = issue_data['repository']['name']
+
         issue_operate_logs = requests.get(
-            f"https://gitee.com/api/v5/repos/mindspore/issues/{number}/operate_logs",
-            params={'access_token': gitee_token, 'repo': 'mindspore', 'sort': 'desc'}).json()
+            f"https://gitee.com/api/v5/repos/{repo}/issues/{number}/operate_logs",
+            params={'access_token': gitee_token, 'repo': repo, 'sort': 'desc'}).json()
 
         total_flag, label_flag, assign_flag, other_flag = is_promoted(owner_id, issue_operate_logs, issue_data['comments_data'])
 
