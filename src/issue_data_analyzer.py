@@ -80,16 +80,17 @@ if __name__ == '__main__' :
 
     scroll_id = issueList['_scroll_id']
 
-    result = issueList['hits']['hits']
+    issues = issueList['hits']['hits']
     for i in range(0, int(total/1000) + 1):
-        result += es.scroll(scroll_id=scroll_id, scroll='1m')['hits']['hits']
+        issues += es.scroll(scroll_id=scroll_id, scroll='1m')['hits']['hits']
 
     actions = []
-    for issue in result:
-        created_at = issue['created_at']
-        issue_id = issue['id']
-        number = issue['number']  # Gitee issue URL
-        owner = issue['user']
+    for issue in issues:
+        issue_data = issue['_source']['data']
+        created_at = issue_data['created_at']
+        issue_id = issue_data['id']
+        number = issue_data['number']  # Gitee issue URL
+        owner = issue_data['user']
         owner_id = owner['id']
         owner_login = owner['login']
         owner_name = owner['name']
@@ -98,7 +99,7 @@ if __name__ == '__main__' :
             f"https://gitee.com/api/v5/repos/mindspore/issues/{number}/operate_logs",
             params={'access_token': gitee_token, 'repo': 'mindspore', 'sort': 'desc'}).json()
 
-        total_flag, label_flag, assign_flag, other_flag = is_promoted(owner_id, issue_operate_logs, issue['comments_data'])
+        total_flag, label_flag, assign_flag, other_flag = is_promoted(owner_id, issue_operate_logs, issue_data['comments_data'])
 
         body = {
                 'id': issue_id,
