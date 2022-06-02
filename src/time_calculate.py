@@ -1,13 +1,11 @@
 import datetime
 import chinese_calendar
 
-## Time format: 2022-05-18T17:37:38+08:00
-
 def overlap_calculate(start, end, interval_begin, interval_end):
 
     left = max(start, interval_begin)
     right = min(end, interval_end)
-    overlap = int((right - left).total_seconds()/60)
+    overlap = int((right - left).total_seconds()/3600)
 
     return max(overlap, 0)
 
@@ -48,12 +46,12 @@ def time_calculate(start_date, end_date):
             break
         else:
             if chinese_calendar.is_workday(start):
-                time_all += (7*60)
+                time_all += 7
                 start += datetime.timedelta(days=1)
             else:
-                start = start.replace(hour=8)
-                start = start.replace(minute=0)
-                start = start.replace(second=0)
+                # start = start.replace(hour=8)
+                # start = start.replace(minute=0)
+                # start = start.replace(second=0)
                 start += datetime.timedelta(days=1)
     print(datetime.datetime.strftime(start, r"%Y-%m-%dT%H:%M:%S+08:00"))
     print(datetime.datetime.strftime(end, r"%Y-%m-%dT%H:%M:%S+08:00"))
@@ -61,5 +59,9 @@ def time_calculate(start_date, end_date):
     return time_all
 
 if __name__ == "__main__":
-    time_diff = time_calculate("2022-05-18T17:37:38+08:00", "2022-05-20T17:37:38+08:00")
+    ## Time format: 2022-05-18T17:37:38+08:00
+    time_diff = time_calculate("2022-06-01T16:37:38+08:00", "2022-06-09T17:37:38+08:00")
+    # minutes
     print(time_diff)
+
+    # print(chinese_calendar.is_workday(datetime.datetime.strptime("2022-06-04T17:37:38+08:00", r"%Y-%m-%dT%H:%M:%S+08:00")))
